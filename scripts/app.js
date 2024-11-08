@@ -276,7 +276,7 @@ function loadAdminCalendar() {
 
     // Lista de colores para los usuarios (10 colores)
     const colors = [
-        "#FFFF33""#FF5733", "#33FF57", "#3357FF", "#F39C12", "#8E44AD", 
+        "#FFFF33", "#FF5733", "#33FF57", "#3357FF", "#F39C12", "#8E44AD", 
         "#1ABC9C", "#3498DB", "#E74C3C", "#9B59B6", "#FFFF00"  // amarillo chillón
     ];
 
