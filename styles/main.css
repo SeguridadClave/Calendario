@@ -1,0 +1,339 @@
+/* Estilos generales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+/* Estilos de la cabecera */
+header {
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+/* Estilos de la barra de navegación */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.logo a {
+    font-size: 1.5em;
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+    border: 2px solid #333;
+    padding: 2px 5px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+}
+
+.nav-links li {
+    margin-left: 20px;
+}
+
+.nav-links a {
+    color: #333;
+    text-decoration: none;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.nav-links a.disabled {
+    color: #ccc;
+    pointer-events: none;
+}
+
+.nav-links a:hover:not(.disabled) {
+    color: #4caf50;
+}
+
+/* Estilos para el contenido principal */
+main {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Estilos para todas las secciones */
+h2 {
+    margin-bottom: 20px;
+}
+
+/* Sección de Usuarios */
+#userListSection {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#userListSection button {
+    padding: 10px 15px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+#userListSection button:hover {
+    background-color: #555;
+}
+
+/* Tabla de usuarios */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f9f9f9;
+    font-weight: bold;
+}
+
+td:last-child {
+    display: flex;
+    gap: 10px;
+}
+
+.edit-btn, .delete-btn {
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 5px;
+}
+
+.edit-btn {
+    background-color: #ffcc00;
+}
+
+.delete-btn {
+    background-color: #e74c3c;
+}
+
+/* Formulario adicional */
+#userFormSection {
+    display: none;
+    padding: 20px;
+    border: 1px solid #ddd;
+    margin-top: 20px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"], input[type="email"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.save-btn, .cancel-btn {
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.save-btn {
+    background-color: #4caf50;
+    color: #fff;
+}
+
+.cancel-btn {
+    background-color: #e74c3c;
+    color: #fff;
+    margin-left: 10px;
+}
+
+/* Estilos de calendario */
+.calendar-container {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.month {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.month-name {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.day-names, .days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    text-align: center;
+    font-size: 0.9em;
+}
+
+.day-names div, .days div {
+    padding: 5px;
+}
+
+.day {
+    cursor: pointer;
+    border-radius: 4px;
+    background-color: #fff;
+    transition: background-color 0.2s;
+    position: relative;
+}
+
+.day:hover {
+    background-color: #e0e0e0;
+}
+
+.day.selected {
+    background-color: #4caf50;
+    color: #fff;
+}
+
+.day.conflict {
+    background-color: #000;
+    color: #fff;
+}
+
+.tooltip {
+    display: none;
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    background-color: #333;
+    color: #fff;
+    padding: 5px;
+    font-size: 0.8em;
+    border-radius: 5px;
+    z-index: 10;
+}
+
+.day:hover .tooltip {
+    display: block;
+}
+
+/* Leyenda de usuarios en el calendario de administrador */
+.legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+}
+
+.legend-color {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+/* Selector de año y usuario */
+.year-user-select {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.year-select, .user-select {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.year-select label, .user-select label {
+    margin-right: 5px;
+}
+
+select {
+    width: 160px;
+    padding: 5px;
+    height: 36px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;   
+}
+
+.footer-links {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    padding: 0;
+    margin-top: 10px;
+}
+
+.footer-links a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+body {
+    position: relative;
+    padding-bottom: 60px; /* Ajusta según la altura del footer */
+    min-height: 100vh;
+    box-sizing: border-box;
+}
