@@ -272,7 +272,8 @@ function generateAnnualCalendar(containerId, isAdmin = false) {
 function loadAdminCalendar() {
     generateAnnualCalendar("adminCalendarContainer", true);
     resetCalendar("adminCalendarContainer");
-    const colors = ["#FF5733", "#33FF57", "#3357FF", "#F39C12", "#8E44AD"];
+    const colors = ["#FF5733", "#33FF57", "#3357FF", "#F39C12", "#8E44AD", 
+        "#1ABC9C", "#3498DB", "#E74C3C", "#9B59B6", "#2ECC71"];
     const legendContainer = document.getElementById("legend");
     legendContainer.innerHTML = '';
 
