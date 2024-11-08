@@ -270,66 +270,80 @@ function generateAnnualCalendar(containerId, isAdmin = false) {
 
 // Cargar calendario de administrador con colores de usuarios
 function loadAdminCalendar() {
+    // Genera el calendario de administración
     generateAnnualCalendar("adminCalendarContainer", true);
     resetCalendar("adminCalendarContainer");
-    const colors = ["FFEA00, #FF5733", "#33FF57", "#3357FF", "#F39C12", "#8E44AD", 
-        "#1ABC9C", "#3498DB", "#E74C3C", "#9B59B6", "#2ECC71"];
-    const legendContainer = document.getElementById("legend");
-    legendContainer.innerHTML = '';
 
+    // Lista de colores para los usuarios (10 colores)
+    const colors = [
+        "#FF5733", "#33FF57", "#3357FF", "#F39C12", "#8E44AD", 
+        "#1ABC9C", "#3498DB", "#E74C3C", "#9B59B6", "#FFFF00"  // amarillo chillón
+    ];
+
+    // Contenedor para la leyenda de colores de usuarios
+    const legendContainer = document.getElementById("legend");
+    legendContainer.innerHTML = ''; // Limpia la leyenda anterior
+
+    // Mapa para rastrear conflictos en los días seleccionados
     const dayConflictMap = new Map();
     const selectedYear = document.getElementById("adminYearSelect").value;
 
+    // Asignación de colores y llenado de los días seleccionados por usuario
     users.forEach((user, index) => {
         const color = colors[index % colors.length];
-        const userCalendar = userCalendars[user.id];
+        const userCalendar = userCalendars[user.id] || new Set();
 
+        // Recorre cada día seleccionado por el usuario
         userCalendar.forEach(dayId => {
             const [year, monthIndex, day] = dayId.split("-").map(Number);
             if (year == selectedYear) {
                 const dayKey = `${monthIndex}-${day}`;
+
+                // Inicializa una lista de usuarios en conflicto para el día específico si no existe
                 if (!dayConflictMap.has(dayKey)) {
                     dayConflictMap.set(dayKey, []);
                 }
-                dayConflictMap.get(dayKey).push(user.name);
-
-                const dayElement = document.querySelector(
-                    `#adminCalendarContainer .month:nth-child(${monthIndex + 1}) .days .day:nth-child(${day + new Date(year, monthIndex, 1).getDay() - 1})`
-                );
-                if (dayElement && dayConflictMap.get(dayKey).length === 1) {
-                    dayElement.style.backgroundColor = color;
-                }
+                // Agrega el usuario actual a la lista de conflictos para el día específico
+                dayConflictMap.get(dayKey).push({ name: user.name, color });
             }
         });
+
+        // Crea la leyenda de usuario y color
+        const legendItem = document.createElement("div");
+        legendItem.classList.add("legend-item");
+        const legendColor = document.createElement("div");
+        legendColor.classList.add("legend-color");
+        legendColor.style.backgroundColor = color;
+        legendItem.appendChild(legendColor);
+        legendItem.appendChild(document.createTextNode(user.name));
+        legendContainer.appendChild(legendItem);
     });
 
-    dayConflictMap.forEach((userNames, dayKey) => {
+    // Colorear los días en el calendario con sus colores y conflictos
+    dayConflictMap.forEach((userData, dayKey) => {
         const [monthIndex, day] = dayKey.split("-").map(Number);
         const dayElement = document.querySelector(
             `#adminCalendarContainer .month:nth-child(${monthIndex + 1}) .days .day:nth-child(${day + new Date(selectedYear, monthIndex, 1).getDay() - 1})`
         );
 
-        if (dayElement && userNames.length > 1) {
-            dayElement.style.backgroundColor = "black"; // Establece el color de fondo en negro
+        // Si solo un usuario ha seleccionado el día, aplica su color sin conflicto
+        if (userData.length === 1) {
+            dayElement.style.backgroundColor = userData[0].color;
+        } 
+        // Si hay múltiples usuarios, marca como conflicto
+        else if (userData.length > 1) {
+            dayElement.style.backgroundColor = "black";
             dayElement.classList.add("conflict");
+
+            // Crea el tooltip de conflicto
             const tooltip = document.createElement("div");
             tooltip.className = "tooltip";
-            tooltip.textContent = "Conflicto entre: " + userNames.join(", ");
+            tooltip.textContent = "Conflicto entre: " + userData.map(u => u.name).join(", ");
             dayElement.appendChild(tooltip);
         }
     });
-
-    users.forEach((user, index) => {
-        const legendItem = document.createElement("div");
-        legendItem.classList.add("legend-item");
-        const legendColor = document.createElement("div");
-        legendColor.classList.add("legend-color");
-        legendColor.style.backgroundColor = colors[index % colors.length];
-        legendItem.appendChild(legendColor);
-        legendItem.appendChild(document.createTextNode(user.name));
-        legendContainer.appendChild(legendItem);
-    });
 }
+
 
 // Cambiar el usuario seleccionado
 function changeSelectedUser() {
